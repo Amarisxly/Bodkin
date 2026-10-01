@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Daily Lineup</title>
+<meta name="description" content="A daily lineup sketchbook and brand dossier.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lineup">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Silkscreen:wght@400;700&family=VT323&display=swap">
+<style>
+/* Layout: a black fashion-magazine masthead over a pixel-terminal "filing desk", then the archive as a wall of covers. */
+:root{
+  --ink:#000000;
+  --paper:#f2f0eb;
+  --dim:#8a8781;
+  --line:#2a2927;
+  --panel:#0b0b0a;
+  --alert:#ff4d3d;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --pixel:"Silkscreen","Courier New",monospace;
+  --term:"VT323","Courier New",monospace;
+  --px:4px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ink);color:var(--paper)}
+body{font-family:var(--term);font-size:21px;line-height:1.25;padding-inline:clamp(16px,4vw,48px);padding-block:0 64px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--paper);color:var(--ink)}
+.wrap{max-width:1240px;margin-inline:auto}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:var(--px) solid var(--paper);outline-offset:3px}
+
+/* scanlines */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);z-index:50}
+
+/* ---------- Top bar ---------- */
+.ticker{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-block:14px;font-family:var(--pixel);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ticker b{color:var(--paper);font-weight:400}
+.blink{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- Masthead ---------- */
+.mast{padding-block:28px 18px;border-bottom:var(--px) solid var(--paper);display:grid;gap:10px}
+.mast h1{font-family:var(--display);font-weight:400;font-size:clamp(56px,13.5vw,188px);line-height:.82;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.mast h1 i{font-style:italic;font-weight:400}
+.mast h1 .px{font-family:var(--pixel);font-size:.22em;letter-spacing:.04em;vertical-align:top;display:inline-block;margin-left:.2em;margin-top:.35em;border:var(--px) solid var(--paper);padding:.12em .3em .05em;font-style:normal}
+.mast .sub{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;font-family:var(--pixel);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.mast .sub span:last-child{color:var(--dim)}
+
+/* ---------- Stats strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.stat{padding:16px 16px 14px;border-right:1px solid var(--line);display:grid;gap:4px;min-width:0}
+.stat:last-child{border-right:0}
+.stat .k{font-family:var(--pixel);font-size:10px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.stat .v{font-family:var(--display);font-size:clamp(34px,5vw,54px);line-height:1;font-variant-numeric:lining-nums tabular-nums}
+.stat .v small{font-family:var(--pixel);font-size:11px;letter-spacing:.1em;margin-left:6px;color:var(--dim)}
+.pips{display:flex;gap:3px;margin-top:4px;flex-wrap:wrap}
+.pip{width:10px;height:10px;background:var(--line)}
+.pip.on{background:var(--paper)}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* ---------- Section heads ---------- */
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;margin-bottom:18px}
+.sec h2{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(34px,5vw,56px);margin:0;line-height:1}
+.sec .tag{font-family:var(--pixel);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+
+/* ---------- Pixel button ---------- */
+.btn{--b:var(--paper);display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--pixel);font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:0;padding:12px 18px;cursor:pointer;position:relative;
+  box-shadow:0 calc(-1*var(--px)) 0 0 var(--b),0 var(--px) 0 0 var(--b),calc(-1*var(--px)) 0 0 0 var(--b),var(--px) 0 0 0 var(--b);
+  transition:transform .12s steps(2),background .12s steps(2),color .12s steps(2);margin:var(--px)}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn:active{transform:translate(2px,2px)}
+.btn.solid{background:var(--paper);color:var(--ink)}
+.btn.solid:hover{background:var(--ink);color:var(--paper)}
+.btn.ghost{--b:var(--line)}
+.btn.ghost:hover{--b:var(--paper)}
+.btn.danger{--b:var(--alert);color:var(--alert)}
+.btn.danger:hover,.btn.danger.armed{background:var(--alert);color:var(--ink)}
+.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
+.btn[disabled]:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- Composer ---------- */
+.desk{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:28px;align-items:start}
+@media (max-width:880px){.desk{grid-template-columns:1fr}}
+.drop{position:relative;aspect-ratio:3/4;max-width:100%;border:var(--px) dashed var(--dim);display:grid;place-items:center;cursor:pointer;overflow:hidden;background:var(--panel);transition:border-color .15s steps(2),background .15s steps(2)}
+.drop:hover{border-color:var(--paper)}
+.drop.over{border-style:solid;border-color:var(--paper);background:var(--paper);color:var(--ink)}
+.drop.over .drop-inner .glyph span{background:var(--ink)}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:var(--paper)}
+.drop-inner{text-align:center;padding:24px;display:grid;gap:14px;justify-items:center}
+.drop-inner .big{font-family:var(--display);font-style:italic;font-size:clamp(28px,3.4vw,40px);line-height:1}
+.drop-inner .small{font-family:var(--pixel);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.drop.over .small{color:var(--ink)}
+.glyph{display:grid;grid-template-columns:repeat(7,8px);gap:0}
+.glyph span{width:8px;height:8px}
+.glyph span.f{background:var(--paper)}
+.drop.over .glyph span.f{background:var(--ink)}
+.drop .swap{position:absolute;left:10px;bottom:10px;z-index:2}
+.drop .meta{position:absolute;right:10px;top:10px;z-index:2;font-family:var(--pixel);font-size:10px;letter-spacing:.12em;background:var(--ink);padding:6px 8px}
+.drop.has .drop-inner{display:none}
+.drop.bump{animation:bump .3s steps(3)}
+@keyframes bump{0%{transform:translate(0,0)}33%{transform:translate(-4px,0)}66%{transform:translate(4px,0)}}
+
+form.fields{display:grid;gap:18px;min-width:0}
+.f label,.f .lab{display:flex;justify-content:space-between;font-family:var(--pixel);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.f label .cnt{font-variant-numeric:tabular-nums}
+.f input[type=text],.f input[type=date],.f textarea{width:100%;background:var(--panel);border:0;border-bottom:2px solid var(--line);padding:10px 2px 8px;font-family:var(--term);font-size:24px;outline:none;border-radius:0;transition:border-color .12s steps(2)}
+.f input[type=text]:focus,.f input[type=date]:focus,.f textarea:focus{border-bottom-color:var(--paper)}
+.f input#brand{font-family:var(--display);font-size:clamp(32px,4vw,44px);font-style:italic;padding-block:4px 6px}
+.f input#brand::placeholder{color:#3c3b38}
+.f textarea{min-height:170px;resize:vertical;line-height:1.2}
+.f ::placeholder{color:#4a4945}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--pixel);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:9px 12px;background:transparent;border:2px solid var(--line);cursor:pointer;transition:all .1s steps(2)}
+.chip:hover{border-color:var(--paper)}
+.chip[aria-pressed=true]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.suggest{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--pixel);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+.suggest button{background:none;border:0;padding:0;cursor:pointer;color:var(--paper);text-decoration:underline;text-underline-offset:4px;font:inherit;letter-spacing:inherit}
+.suggest button:hover{color:var(--ink);background:var(--paper);text-decoration:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.hint{font-family:var(--pixel);font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+
+/* progress */
+.prog{display:none;gap:8px}
+.prog.on{display:grid}
+.bar{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;height:16px}
+.bar i{background:var(--line)}
+.bar i.on{background:var(--paper)}
+.prog .st{font-family:var(--pixel);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between}
+
+.notice{border:2px solid var(--line);padding:14px 16px;font-family:var(--pixel);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);line-height:1.7}
+
+/* ---------- Archive ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.search{background:var(--panel);border:0;border-bottom:2px solid var(--line);padding:8px 4px;font-family:var(--term);font-size:22px;width:min(260px,100%);outline:none}
+.search:focus{border-bottom-color:var(--paper)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:28px 22px}
+.cover{all:unset;cursor:pointer;display:grid;gap:10px;min-width:0}
+.cover .art{position:relative;aspect-ratio:3/4;background:var(--paper);overflow:hidden;outline:2px solid var(--line);transition:outline-color .12s steps(2),transform .2s steps(3)}
+.cover:hover .art,.cover:focus-visible .art{outline:var(--px) solid var(--paper);transform:translate(-4px,-4px);box-shadow:8px 8px 0 0 var(--line)}
+.cover .art img{width:100%;height:100%;object-fit:cover;display:block}
+.cover .art .missing{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink);font-family:var(--pixel);font-size:10px;letter-spacing:.14em}
+.cover .mh{position:absolute;inset:0 0 auto 0;padding:10px 12px;color:var(--ink);font-family:var(--display);font-size:30px;line-height:.9;font-style:italic;mix-blend-mode:difference;color:#fff;pointer-events:none;text-wrap:balance}
+.cover .no{position:absolute;right:8px;bottom:8px;background:var(--ink);color:var(--paper);font-family:var(--pixel);font-size:10px;letter-spacing:.12em;padding:5px 7px}
+.cover .cap{display:flex;justify-content:space-between;gap:8px;font-family:var(--pixel);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.cover .cap b{color:var(--paper);font-weight:400}
+.cover.fresh .art{animation:land .6s steps(6)}
+@keyframes land{0%{clip-path:inset(0 0 100% 0)}100%{clip-path:inset(0 0 0 0)}}
+
+.empty{border:var(--px) dashed var(--line);padding:clamp(28px,6vw,64px) 24px;display:grid;gap:14px;justify-items:center;text-align:center}
+.empty .big{font-family:var(--display);font-style:italic;font-size:clamp(32px,5vw,56px);line-height:1}
+.empty p{max-width:46ch;margin:0;color:var(--dim)}
+
+/* ---------- Detail ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:40;display:grid;place-items:center;padding:clamp(16px,3vw,40px);overflow:auto}
+.sheet{width:min(1100px,100%);background:var(--ink);border:var(--px) solid var(--paper);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-height:calc(100dvh - 48px);overflow:auto;animation:pop .25s steps(4)}
+@keyframes pop{from{clip-path:inset(50% 0 50% 0)}to{clip-path:inset(0 0 0 0)}}
+@media (max-width:800px){.sheet{grid-template-columns:1fr}}
+.sheet .pic{background:var(--paper);min-height:320px;display:grid;place-items:center}
+.sheet .pic img{width:100%;height:100%;max-height:80dvh;object-fit:contain}
+.sheet .txt{padding:clamp(18px,3vw,36px);display:grid;gap:16px;align-content:start;min-width:0}
+.sheet .kick{font-family:var(--pixel);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sheet h3{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(44px,6vw,84px);line-height:.9;margin:0;text-wrap:balance;overflow-wrap:anywhere}
+.sheet .notes{white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid var(--line);padding-top:14px;max-width:62ch}
+.sheet .notes.none{color:var(--dim)}
+.sheet .kw{display:flex;gap:6px;flex-wrap:wrap}
+.sheet .kw span{font-family:var(--pixel);font-size:10px;letter-spacing:.1em;border:1px solid var(--line);padding:5px 8px;text-transform:uppercase}
+.close{position:sticky;top:0}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--paper);color:var(--ink);font-family:var(--pixel);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:14px 18px;box-shadow:6px 6px 0 0 var(--line);max-width:calc(100vw - 32px);animation:tin .3s steps(3)}
+.toast.err{background:var(--alert)}
+@keyframes tin{from{transform:translate(-50%,30px);opacity:0}}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:55}
+
+footer{margin-top:64px;border-top:var(--px) solid var(--paper);padding-top:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--pixel);font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+
+
+/* ---------- full-screen snap sections ---------- */
+[hidden]{display:none!important}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+@media (max-width:880px),(max-height:620px){html{scroll-snap-type:y proximity}}
+.snap{scroll-snap-align:start;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding-block:0 32px}
+.s-cover{padding-bottom:20px}
+.s-cover .mast{flex:1;align-content:center;padding-block:clamp(24px,6vh,72px);border-bottom:0}
+.s-cover .mast h1{font-size:clamp(60px,13vw,200px)}
+.s-cover .mast .sub{border-top:var(--px) solid var(--paper);padding-top:14px;margin-top:clamp(8px,2vh,20px)}
+.s-cover .stats{border-top:1px solid var(--line)}
+.down{align-self:center;margin-top:18px;display:grid;justify-items:center;gap:6px;color:var(--dim);text-decoration:none;font-family:var(--pixel);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.down:hover{color:var(--paper)}
+.down .arr{font-size:14px;animation:nudge 1.2s steps(2) infinite}
+@keyframes nudge{50%{transform:translateY(5px)}}
+.s-desk,.s-archive{padding-top:clamp(20px,4vh,40px)}
+.s-desk .sec,.s-archive .sec{margin-top:0;padding-bottom:16px;border-bottom:var(--px) solid var(--paper);margin-bottom:clamp(18px,3vh,28px)}
+.s-desk{justify-content:flex-start}
+.s-desk .desk{flex:1;align-items:center;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:clamp(24px,4vw,56px)}
+.s-desk .drop{max-height:calc(100dvh - 190px);margin-inline:auto;width:100%}
+.s-desk form.fields{gap:clamp(12px,2vh,18px)}
+.s-desk .f textarea{min-height:clamp(90px,16vh,160px)}
+.s-archive footer{margin-top:auto;padding-top:14px}
+.s-archive #archive{margin-bottom:48px}
+@media (max-width:880px){.s-desk .drop{max-height:60vh}.s-desk .desk{grid-template-columns:1fr}}
+
+/* section dots */
+.dots{position:fixed;right:clamp(8px,1.6vw,22px);top:50%;transform:translateY(-50%);z-index:30;display:grid;gap:12px}
+.dots button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:flex-end;gap:10px;font-family:var(--pixel);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.dots i{width:10px;height:10px;border:2px solid var(--dim);order:2;transition:all .12s steps(2)}
+.dots span{opacity:0;transition:opacity .12s steps(2);background:var(--ink);padding:2px 4px}
+.dots button:hover span,.dots button:focus-visible span{opacity:1}
+.dots button:focus-visible i{outline:2px solid var(--paper);outline-offset:3px}
+.dots button[aria-current=true] i{background:var(--paper);border-color:var(--paper);transform:scale(1.2)}
+.dots button[aria-current=true]{color:var(--paper)}
+@media (max-width:700px){.dots{display:none}}
+
+/* ---------- back links ---------- */
+.back{background:none;border:0;padding:0;cursor:pointer;font-family:var(--pixel);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.back:hover{color:var(--paper)}
+/* ---------- cover CTA ---------- */
+.cover-cta{display:flex;gap:10px 16px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.cover-cta .arr{display:inline-block;animation:nudge 1.2s steps(2) infinite}
+.cover-cta .n{font-variant-numeric:tabular-nums;border-left:2px solid currentColor;padding-left:10px;margin-left:2px}
+.back.inline{color:var(--paper);text-decoration:underline;text-underline-offset:4px}
+@media (max-width:700px){.mascot-cap em{font-size:13px}.ticker>span:nth-child(2){display:none}.cover-cta .btn{flex:1 1 100%}}
+
+/* ---------- segmented control ---------- */
+.seg{display:inline-flex;border:2px solid var(--line)}
+.seg button{background:none;border:0;cursor:pointer;font-family:var(--pixel);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:8px 12px}
+.seg button:hover{color:var(--paper)}
+.seg button[aria-pressed=true]{background:var(--paper);color:var(--ink)}
+
+/* ---------- cutout tools ---------- */
+.cut-tools{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;margin-top:12px}
+.str{display:flex;align-items:center;gap:10px;font-family:var(--pixel);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.str input{-webkit-appearance:none;appearance:none;width:120px;height:4px;background:var(--line);outline-offset:6px}
+.str input::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--paper);border:0;border-radius:0;cursor:pointer}
+.str input::-moz-range-thumb{width:14px;height:14px;background:var(--paper);border:0;border-radius:0;cursor:pointer}
+.cutst{font-family:var(--pixel);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.checker{background-color:#0d0d0c;background-image:linear-gradient(45deg,#191918 25%,transparent 25%,transparent 75%,#191918 75%),linear-gradient(45deg,#191918 25%,transparent 25%,transparent 75%,#191918 75%);background-size:16px 16px;background-position:0 0,8px 8px}
+.drop.cutview img{background:none;padding:6%}
+.drop.cutview{border-style:solid;border-color:var(--line)}
+.drop.cutview,.pic.cutview{background-color:#0d0d0c;background-image:linear-gradient(45deg,#191918 25%,transparent 25%,transparent 75%,#191918 75%),linear-gradient(45deg,#191918 25%,transparent 25%,transparent 75%,#191918 75%);background-size:16px 16px;background-position:0 0,8px 8px}
+.drop.cutting::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--paper);z-index:3;animation:scan 1s steps(14) infinite;box-shadow:0 0 0 1px var(--ink)}
+@keyframes scan{to{top:calc(100% - 6px)}}
+
+/* ---------- archive overlay ---------- */
+html.locked{overflow:hidden}
+.arch{position:fixed;inset:0;z-index:35;background:var(--ink);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding-inline:clamp(16px,4vw,48px);padding-block:env(safe-area-inset-top,0px) calc(48px + env(safe-area-inset-bottom,0px));animation:wipe .4s steps(6)}
+@keyframes wipe{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.arch-in{max-width:1240px;margin-inline:auto}
+.arch-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;padding-block:22px 14px;border-bottom:var(--px) solid var(--paper)}
+.arch-head h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,96px);line-height:.9;margin:0;flex:1 1 auto;text-align:center}
+.arch-head h2 i{font-style:italic}
+.arch-head .tag{font-family:var(--pixel);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-variant-numeric:tabular-nums}
+.arch-bar{position:sticky;top:0;z-index:2;background:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:14px;border-bottom:1px solid var(--line);margin-bottom:clamp(24px,5vh,48px)}
+@media (max-width:640px){.arch-head h2{text-align:left;order:3;flex-basis:100%}.search{width:100%}}
+
+/* lineup: every look on one floor, oldest → newest */
+.lineup{display:flex;flex-wrap:wrap;align-items:flex-end;row-gap:40px}
+.look{all:unset;cursor:pointer;display:grid;justify-items:center;gap:10px;padding-inline:clamp(4px,1vw,12px);min-width:0;position:relative}
+.look .fig{height:clamp(200px,40vh,400px);display:flex;align-items:flex-end;justify-content:center;border-bottom:2px solid var(--line);padding-inline:6px;transition:border-color .12s steps(2)}
+.look .fig img{height:100%;width:auto;max-width:min(62vw,300px);object-fit:contain;object-position:bottom;filter:drop-shadow(5px 5px 0 #1f1f1e);transition:transform .2s steps(3)}
+.look .fig img.raw{height:auto;max-height:100%;border:6px solid var(--paper)}
+.look:hover .fig img,.look:focus-visible .fig img{transform:translateY(-10px)}
+.look:hover .fig,.look:focus-visible .fig{border-bottom-color:var(--paper)}
+.look:focus-visible{outline:none}
+.look:focus-visible .lbl b{background:var(--paper);color:var(--ink)}
+.look .lbl{display:grid;justify-items:center;gap:2px;font-family:var(--pixel);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:center;max-width:20ch}
+.look .lbl b{font-weight:400;color:var(--paper);padding:1px 4px}
+.look .lbl .br{font-family:var(--display);font-style:italic;font-size:19px;letter-spacing:0;text-transform:none;color:var(--paper);line-height:1.05}
+.look .pending{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-family:var(--pixel);font-size:9px;letter-spacing:.12em;background:var(--ink);padding:3px 6px;color:var(--dim)}
+.look.fresh .fig img{animation:dropin .7s steps(7)}
+@keyframes dropin{from{transform:translateY(-60px);opacity:0}}
+
+/* flat lay: pinned to the table, a little askew */
+.flat{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:30px 18px;padding:12px 4px 24px}
+.flat .look{transform:translate(var(--x),var(--y)) rotate(var(--r));transition:transform .2s steps(3)}
+.flat .look .fig{height:230px;border-bottom:0}
+.flat .look .fig img{max-width:100%}
+.flat .look .lbl{transform:rotate(calc(var(--r) * -1.6));background:var(--paper);color:var(--ink);padding:4px 7px;max-width:none}
+.flat .look .lbl b,.flat .look .lbl .br{color:var(--ink)}
+.flat .look .lbl .br{font-size:16px}
+.flat .look:hover,.flat .look:focus-visible{transform:translate(0,0) rotate(0) scale(1.06);z-index:3}
+.flat .look:hover .fig img{transform:none}
+
+.sheet .pic{position:relative}
+.sheet .pic .seg{position:absolute;left:12px;top:12px;background:var(--ink)}
+.sheet .pic.cutview img{padding:6%}
+
+/* ---------- archive button in the masthead ---------- */
+.arch-btn{justify-self:start;width:auto;margin-top:clamp(14px,3vh,28px);padding:10px 14px;font-size:11px;gap:8px}
+.arch-btn .sq{width:8px;height:8px;background:currentColor;display:inline-block}
+.arch-btn .n{font-variant-numeric:tabular-nums;border-left:2px solid currentColor;padding-left:8px}
+
+/* drag-follow while flipping pages */
+.wrap{will-change:transform}
+.wrap.dragging{transition:none}
+.wrap.release{transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- the dress form: logo + mascot ---------- */
+.formcv{image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+.mast{position:relative}
+.mast-row{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(12px,3vw,40px)}
+.mast-row h1{min-width:0}
+.mascot{flex:none;display:grid;justify-items:end;gap:8px;padding-bottom:8px;position:relative;margin-right:0}
+.poke{all:unset;cursor:pointer;display:block;line-height:0}
+.poke:focus-visible{outline:2px solid var(--paper);outline-offset:6px}
+.cap-link{all:unset;cursor:pointer;display:block;text-align:right}
+@media (hover:hover){.cap-link:hover em{text-decoration:underline;text-underline-offset:3px}}
+.cap-link:focus-visible em{text-decoration:underline;text-underline-offset:3px}
+.bubble{position:absolute;top:2px;bottom:auto;right:calc(100% + 8px);white-space:nowrap;background:var(--paper);color:var(--ink);font-family:var(--pixel);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;box-shadow:3px 3px 0 0 var(--line);animation:pop-b .18s steps(3);z-index:3}
+.bubble::after{content:"";position:absolute;right:-6px;top:8px;width:6px;height:6px;background:var(--paper)}
+@keyframes pop-b{from{transform:translateY(6px);opacity:0}}
+.mascot .formcv{width:calc(16px * var(--fs,2.95));height:calc(19px * var(--fs,2.95))}
+
+
+.mascot:focus-visible{outline:none}
+.mascot:focus-visible .mascot-cap{background:var(--paper);color:var(--ink)}
+.mascot-cap{display:grid;justify-items:end;gap:3px;text-align:right;padding:0}
+.mascot-cap b{margin-right:-.24em}
+.mascot-cap b{font-family:var(--pixel);font-weight:400;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.mascot-cap em{display:block;max-width:7.5em;padding-right:.12em;font-family:var(--display);font-style:italic;font-size:15px;line-height:1.05;color:var(--paper);letter-spacing:0;text-wrap:balance}
+.mascot:not(.dressed) .mascot-cap em{color:var(--dim)}
+@media (max-width:1100px){.mascot{--fs:2.95}}
+@media (max-width:700px){.mascot{--fs:2.21}.mascot-cap b{font-size:8px}}
+.sec-l{display:flex;align-items:baseline;gap:.28em;min-width:0;font-size:clamp(34px,5vw,56px)}
+#deskForm{height:.817em;width:.688em;flex:none;margin-bottom:-.06em}
+#dropForm{width:80px;height:95px}
+.drop.over #dropForm{filter:invert(1)}
+.look.next .fig{border-bottom-style:dashed}
+.look.next .formcv{height:auto;width:80px;aspect-ratio:16/19}
+.look.next .lbl{color:var(--dim)}
+.empty .formcv{width:80px;height:95px}
+
+/* ---------- PWA additions ---------- */
+html,body{margin:0}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+.arch-tools{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.tk-r{display:inline-flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+#installBtn{color:var(--paper);text-decoration:underline;text-underline-offset:4px}
+@media (display-mode: standalone){.ticker{padding-top:6px}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="snap s-cover" id="s-cover" data-label="Cover">
+  <div class="ticker">
+    <span><b id="tkDate">—</b> · <span id="tkTime">--:--</span><span class="blink">_</span></span>
+    <span>One lineup · One house · Every day</span>
+    <span class="tk-r"><button type="button" class="back" id="installBtn" hidden>Install app ↓</button><span id="tkStatus">Opening archive…</span></span>
+  </div>
+
+  <header class="mast">
+    <div class="mast-row">
+  <h1>The Daily <i>Lineup</i><span class="px" id="mastNo">N°000</span></h1>
+    <div class="mascot" id="mascot">
+      <span class="bubble" id="bubble" role="status" aria-live="polite" hidden></span>
+      <button type="button" class="poke" id="poke" aria-label="Poke Bodkin"><canvas class="formcv" id="mastForm" aria-hidden="true"></canvas></button>
+      <span class="mascot-cap"><b>Bodkin</b><button type="button" class="cap-link" id="capLink"><em id="mastCap">awaits today’s look</em></button></span>
+    </div>
+    </div>
+    <div class="sub"><span>Sketchbook &amp; brand dossier — luxury, fashion, creative culture</span><span id="mastVol">Vol. I</span></div>
+      <button type="button" class="btn arch-btn" data-arch><span class="sq" aria-hidden="true"></span>Archive <span class="n" id="archN">00</span></button>
+  </header>
+
+  <section class="stats" aria-label="Progress">
+    <div class="stat"><span class="k">Issues filed</span><span class="v" id="sTotal">0</span></div>
+    <div class="stat"><span class="k">Current streak</span><span class="v"><span id="sStreak">0</span><small>DAYS</small></span><div class="pips" id="sPips" aria-hidden="true"></div></div>
+    <div class="stat"><span class="k">Houses studied</span><span class="v" id="sBrands">0</span></div>
+    <div class="stat"><span class="k">Today</span><span class="v" id="sToday" style="font-size:clamp(22px,3vw,30px);font-family:var(--pixel);letter-spacing:.08em">OPEN</span></div>
+  </section>
+  <div class="cover-cta">
+    <button type="button" class="btn solid big" data-jump="s-desk">File today's lineup <span class="arr" aria-hidden="true">▼</span></button>
+  </div>
+</section>
+
+<section class="snap s-desk" id="s-desk" data-label="File">
+
+  <div class="sec"><div class="sec-l"><canvas class="formcv" id="deskForm" aria-hidden="true" hidden></canvas><h2 id="deskTitle">Today's Lineup</h2></div><span class="tag"><span id="deskTag">Drop · Paste · Click to upload</span> · <button type="button" class="back inline" data-arch>Archive →</button></span></div>
+
+  <div id="readonly" class="notice" hidden>This archive is read-only for you. Only the owner can file new lineups.</div>
+
+  <div class="desk" id="desk">
+    <div>
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload your lineup sketch">
+        <div class="drop-inner">
+          <div class="glyph" id="glyph" aria-hidden="true" hidden></div>
+          <canvas class="formcv" id="dropForm" aria-hidden="true"></canvas>
+          <div class="big">Drop the sketch</div>
+          <div class="small">PNG · JPG · WEBP · GIF · up to 20 MB<br>or paste with ⌘V / Ctrl V</div>
+        </div>
+        <img id="preview" alt="" hidden>
+        <span class="meta" id="fileMeta" hidden></span>
+        <button type="button" class="btn ghost swap" id="swapBtn" hidden>Replace</button>
+        <input type="file" id="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+      </div>
+      <div class="cut-tools" id="cutTools" hidden>
+        <div class="seg" id="cutModes" role="group" aria-label="Preview">
+          <button type="button" data-cm="cut" aria-pressed="true">Cutout</button>
+          <button type="button" data-cm="orig" aria-pressed="false">Original</button>
+        </div>
+        <label class="str" for="strength"><span>Clean-up</span><input type="range" id="strength" min="0" max="100" value="45"></label>
+        <span class="cutst" id="cutSt" aria-live="polite">—</span>
+      </div>
+    </div>
+
+    <form class="fields" id="form" autocomplete="off">
+      <div class="f">
+        <label for="brand"><span>House / Brand of the day</span><span class="cnt" id="brandCnt">0/60</span></label>
+        <input type="text" id="brand" maxlength="60" placeholder="Maison Margiela" required>
+        <div class="suggest"><span>Need a prompt?</span><button type="button" id="sugBtn">—</button><span>·</span><button type="button" id="shuffleBtn">Shuffle</button></div>
+      </div>
+
+      <div class="f">
+        <span class="lab">Category</span>
+        <div class="chips" id="cats" role="group" aria-label="Category">
+          <button type="button" class="chip" data-v="Luxury" aria-pressed="true">Luxury</button>
+          <button type="button" class="chip" data-v="Fashion" aria-pressed="false">Fashion</button>
+          <button type="button" class="chip" data-v="Creative Culture" aria-pressed="false">Creative Culture</button>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="f"><label for="date">Issue date</label><input type="date" id="date" required></div>
+        <div class="f"><label for="kw">Keywords <span>comma separated</span></label><input type="text" id="kw" maxlength="120" placeholder="tabi, deconstruction, white"></div>
+      </div>
+
+      <div class="f">
+        <label for="notes"><span>Research notes</span><span class="cnt" id="notesCnt">0</span></label>
+        <textarea id="notes" placeholder="Founded / founder / creative director&#10;Signature codes & silhouettes&#10;What I took into today's lineup"></textarea>
+      </div>
+
+      <div class="prog" id="prog" aria-live="polite">
+        <div class="bar" id="bar"></div>
+        <div class="st"><span id="progTxt">Uploading…</span><span id="progPct">0%</span></div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn solid" id="submitBtn">File today's issue →</button>
+        <button type="button" class="btn ghost" id="cancelEdit" hidden>Cancel edit</button>
+        <span class="hint" id="hint">Sketch + brand required</span>
+      </div>
+    </form>
+  </div>
+
+</section>
+</div>
+
+<nav class="dots" aria-label="Sections">
+  <button type="button" data-jump="s-cover" aria-label="Cover"><i></i><span>Cover</span></button>
+  <button type="button" data-jump="s-desk" aria-label="File today's lineup"><i></i><span>File</span></button>
+</nav>
+
+<div class="arch" id="arch" hidden role="dialog" aria-modal="true" aria-labelledby="archTitle">
+  <div class="arch-in">
+    <header class="arch-head">
+      <button type="button" class="back" id="archClose">← Cover</button>
+      <h2 id="archTitle">The <i>Collection</i></h2>
+      <div class="arch-tools">
+        <span class="tag" id="archCount">0 looks</span>
+        <button type="button" class="back" id="backupBtn">Backup ↓</button>
+        <button type="button" class="back" id="restoreBtn">Restore ↑</button>
+        <input type="file" id="restoreFile" accept=".zip,application/zip" hidden>
+      </div>
+    </header>
+    <div class="arch-bar">
+      <div class="seg" id="modes" role="group" aria-label="Display">
+        <button type="button" data-m="lineup" aria-pressed="true">Lineup</button>
+        <button type="button" data-m="flat" aria-pressed="false">Flat lay</button>
+      </div>
+      <div class="filters" id="filters">
+        <button type="button" class="chip" data-f="All" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-f="Luxury" aria-pressed="false">Luxury</button>
+        <button type="button" class="chip" data-f="Fashion" aria-pressed="false">Fashion</button>
+        <button type="button" class="chip" data-f="Creative Culture" aria-pressed="false">Culture</button>
+        <input class="search" id="q" type="search" placeholder="Search houses…" aria-label="Search the archive">
+      </div>
+    </div>
+    <div id="archive"></div>
+  </div>
+</div>
+
+<div id="overlayRoot"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script src="store.js"></script>
+<script src="jszip.min.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const pad = (n, w = 3) => String(n).padStart(w, "0");
+  const localISO = d => { const z = new Date(d.getTime() - d.getTimezoneOffset() * 60000); return z.toISOString().slice(0, 10); };
+  const todayISO = () => localISO(new Date());
+  const fmtDate = iso => { const [y, m, d] = iso.split("-").map(Number); return new Date(y, m - 1, d).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase(); };
+  const ACCEPT = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+
+  const BRANDS = ["Maison Margiela","Comme des Garçons","Bottega Veneta","Loewe","Prada","Miu Miu","Hermès","Chanel","Dior","Balenciaga","Rick Owens","Yohji Yamamoto","Issey Miyake","Jil Sander","The Row","Alaïa","Schiaparelli","Jacquemus","Simone Rocha","JW Anderson","Craig Green","Martine Rose","Wales Bonner","Sacai","Undercover","Celine","Saint Laurent","Gucci","Valentino","Givenchy","Thom Browne","Dries Van Noten","Ann Demeulemeester","Lemaire","Marni","Acne Studios","Kiko Kostadinov","Junya Watanabe","Noir Kei Ninomiya","Molly Goddard","Charles Jeffrey Loverboy","Supreme","Palace","Aimé Leon Dore","Kapital","Visvim","Byredo","Aesop","Le Labo","Comme des Garçons Parfums","Tiffany & Co.","Cartier","Van Cleef & Arpels","Moncler Genius","Stone Island","Ottolinger","Coperni","Mugler","Courrèges","Paco Rabanne","Vivienne Westwood","Alexander McQueen","Off-White","A-COLD-WALL*","Fear of God","Brain Dead","Dover Street Market","SSENSE","i-D Magazine","032c"];
+
+  /* ---------- tiny pixel glyph (hanger) ---------- */
+  const G = ["...f...","..f.f..","....f..","...f...","..f.f..",".f...f.","fffffff"];
+  $("#glyph").innerHTML = G.join("").split("").map(c => `<span class="${c === "f" ? "f" : ""}"></span>`).join("");
+  const bar = $("#bar");
+  setTimeout(sizeCanvases, 0); bar.innerHTML = "<i></i>".repeat(24);
+
+  /* ---------- clock ---------- */
+  const tick = () => { const n = new Date(); $("#tkDate").textContent = n.toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short", year: "numeric" }).toUpperCase(); $("#tkTime").textContent = n.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }); };
+  tick(); setInterval(tick, 15000);
+  $("#mastVol").textContent = "Vol. " + ["I","II","III","IV","V","VI","VII","VIII","IX","X"][(new Date().getFullYear() - 2026) % 10] + " · " + new Date().getFullYear();
+
+  /* ---------- state ---------- */
+  let db = null, assets = null, canWrite = false;
+  let issues = [];               // [{id, ...data}]
+  let file = null, previewURL = null, existingAsset = null;
+  let category = "Luxury", filter = "All", query = "", editingId = null, busy = false;
+  let freshId = null, connecting = true;
+  let BLOB = () => "", raw = null;
+  $("#date").value = todayISO();
+
+  /* ---------- suggestion ---------- */
+  let sugIdx = Math.floor(Date.now() / 864e5) % BRANDS.length;
+  const showSug = () => { $("#sugBtn").textContent = BRANDS[sugIdx]; };
+  showSug();
+  $("#sugBtn").onclick = () => { $("#brand").value = BRANDS[sugIdx]; updateCounts(); validate(); $("#brand").focus(); };
+  $("#shuffleBtn").onclick = () => { sugIdx = (sugIdx + 1 + Math.floor(Math.random() * (BRANDS.length - 1))) % BRANDS.length; showSug(); };
+
+  /* ---------- toast + confetti ---------- */
+  let toastTimer;
+  function toast(msg, err) {
+    document.querySelectorAll(".toast").forEach(t => t.remove());
+    const t = document.createElement("div"); t.className = "toast" + (err ? " err" : ""); t.setAttribute("role", "status"); t.textContent = msg;
+    document.body.appendChild(t); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), err ? 5200 : 3400);
+  }
+  const fx = $("#fx"), ctx = fx.getContext("2d");
+  function burst(x, y) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    fx.width = innerWidth; fx.height = innerHeight;
+    const ps = Array.from({ length: 70 }, () => ({ x, y, vx: (Math.random() - .5) * 14, vy: -Math.random() * 13 - 3, s: [4, 6, 8][Math.floor(Math.random() * 3)], c: Math.random() < .8 ? "#f2f0eb" : "#8a8781" }));
+    let f = 0;
+    (function loop() {
+      ctx.clearRect(0, 0, fx.width, fx.height);
+      ps.forEach(p => { p.vy += .55; p.x += p.vx; p.y += p.vy; ctx.fillStyle = p.c; ctx.fillRect(Math.round(p.x / 4) * 4, Math.round(p.y / 4) * 4, p.s, p.s); });
+      if (++f < 70) requestAnimationFrame(loop); else ctx.clearRect(0, 0, fx.width, fx.height);
+    })();
+  }
+
+  /* ---------- Bodkin: the site's mascot ----------
+     A black pincushion monster on a 24 x 24 pixel grid: stitched seam, one button eye,
+     one eye sewn shut, a zig-zag stitched mouth, pins in its head and pins for legs.
+     The patch on its belly takes the colour and print of the day's sketch. */
+  const PATTERNS = ["plain", "stripe", "check", "pin", "dot"];
+  const hexToRgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const rgbToHex = a => "#" + a.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0")).join("");
+  const mix = (a, b, t) => rgbToHex(hexToRgb(a).map((v, i) => v + (hexToRgb(b)[i] - v) * t));
+  const lumOf = h => { const [r, g, b] = hexToRgb(h); return (r * 299 + g * 587 + b * 114) / 1000; };
+  /* Square pincushion on a 16 x 20 grid, drawn 1:1 and scaled up by CSS.
+     Two pins in the head, a button eye and a sewn-shut eye, a stitched mouth,
+     the day's patch with a stitched border, and short pin legs. */
+  const C = { line: "#f2f0eb", body: "#1d1c21", shade: "#121115", pin: "#8a8781", hole: "#000000", thread: "#77746d" };
+  const GW = 16, GH = 19;
+  /* Bodkin's wardrobe: each poke changes into the next look. */
+  const WARDROBE = [
+    { id: "classic", line: "Back to black." },
+    { id: "oxblood", skin: { body: "#4a1a1c", shade: "#311112" }, line: "Oxblood season." },
+    { id: "beret", acc: "beret", line: "Très Paris." },
+    { id: "pearls", acc: "pearls", line: "Pearls, always." },
+    { id: "ivory", skin: { body: "#e7e2d8", shade: "#c9c3b8", line: "#f7f5f0", feature: "#1d1c21", hole: "#e7e2d8" }, line: "All white, all day." },
+    { id: "shades", acc: "shades", line: "Front-row face." },
+    { id: "bow", acc: "bow", line: "Tied with a bow." },
+    { id: "navy", skin: { body: "#1b2341", shade: "#121830" }, acc: "pearls", line: "Navy, with pearls." },
+    { id: "halloween", acc: "witch", skin: { body: "#d26a1c", shade: "#a04f17", line: "#f2f0eb", feature: "#1d1c21", hole: "#d26a1c" }, line: "Trick or treat." },
+    { id: "frog", acc: "frog", skin: { body: "#4f8a3c", shade: "#3a6a2c", line: "#f2f0eb", feature: "#1d1c21", hole: "#4f8a3c" }, line: "Ribbit, darling." },
+    { id: "fox", acc: "fox", skin: { body: "#c4612a", shade: "#94461e", line: "#f2f0eb", feature: "#1d1c21", hole: "#c4612a" }, line: "Sly, but chic." },
+    { id: "stripes", acc: "stripes", skin: { body: "#ece8df", shade: "#d3cdc2", line: "#f7f5f0", feature: "#1d1c21", hole: "#ece8df" }, line: "Breton stripes." },
+  ];
+  let wearIdx = 0;
+  try { wearIdx = Math.max(0, WARDROBE.findIndex(w => w.id === localStorage.getItem("dl-bodkin-look"))); } catch {}
+  function paintForm(cv, o = {}) {
+    const wear = WARDROBE[wearIdx] || WARDROBE[0], sk = { ...C, ...(wear.skin || {}) }, acc = wear.acc;
+    const FEAT = sk.feature || C.line, HOLE = sk.hole || C.hole;
+    if (cv.width !== GW || cv.height !== GH) { cv.width = GW; cv.height = GH; }
+    const g = cv.getContext("2d"); g.clearRect(0, 0, GW, GH);
+    const f = o.frame || 0, bob = (f ? -1 : 0) - (o.lift || 0), w = o.wiggle ? 1 : 0;
+    const px = (x, y, c) => { g.fillStyle = c; g.fillRect(x, y + bob, 1, 1); };
+    const fixed = (x, y, c) => { g.fillStyle = c; g.fillRect(x, y, 1, 1); };
+    // pins in the head (x 4 and 11, mirrored); heads tilt out when poked
+    if (!["beret", "witch", "frog", "fox"].includes(acc)) [[4, 3, -1], [11, 12, 1]].forEach(([x, hx, d]) => {
+      px(x, 1, C.pin); px(x, 2, C.pin);
+      const head = o.fill ? (o.reveal == null || o.reveal >= 3 ? o.fill : C.line) : C.line;
+      px(Math.min(x, hx) + d * w, w, head); px(Math.max(x, hx) + d * w, w, head);
+    });
+    // body: rounded square, outline x1..14, y3..16
+    for (let y = 3; y <= 16; y++) for (let x = 1; x <= 14; x++) {
+      if ((x === 1 || x === 14) && (y === 3 || y === 16)) continue;
+      const edge = x === 1 || x === 14 || y === 3 || y === 16;
+      let c = edge ? sk.line : (x === 13 || y === 15) ? sk.shade : sk.body;
+      if (!edge && acc === "stripes" && y % 2 === 0 && y > 4) c = "#1b2341";
+      px(x, y, c);
+    }
+    // accessories that sit on the head
+    if (acc === "beret") {
+      const B = "#7a2a2a", Bd = "#561c1c";
+      for (let x = 2; x <= 13; x++) px(x, 3, x > 10 ? Bd : B);
+      for (let x = 3; x <= 13; x++) px(x, 2, x > 10 ? Bd : B);
+      for (let x = 5; x <= 11; x++) px(x, 1, B);
+      px(8, 0, Bd);
+    }
+    if (acc === "witch") {
+      const H = "#141316", Hb = "#2a2930", band = "#7a3fa0";
+      for (let x = 0; x <= 15; x++) px(x, 3, x === 0 || x === 15 ? Hb : H);   // brim
+      for (let x = 4; x <= 11; x++) px(x, 2, x === 4 || x === 11 ? H : band); // band
+      for (let x = 5; x <= 10; x++) px(x, 1, H);
+      px(8, 0, H); px(9, 0, H); px(10, -1 + 1, H);                           // tip, bent right
+    }
+    if (acc === "frog") {
+      // bulging eyes on top of the head
+      [[2, 5], [10, 13]].forEach(([a, b2]) => {
+        for (let x = a; x <= b2; x++) { px(x, 1, sk.body); px(x, 2, sk.body); }
+        for (let x = a + 1; x <= b2 - 1; x++) px(x, 0, sk.body);
+        if (o.blink) { for (let x = a; x <= b2; x++) px(x, 1, sk.shade); }
+        else {
+          px(a + 1, 1, "#f2f0eb"); px(a + 2, 1, "#f2f0eb"); px(a + 1, 2, "#f2f0eb"); px(a + 2, 2, "#f2f0eb");
+          const lx = a + 1 + (o.look > 0 ? 1 : 0); px(lx, o.dizzy ? 1 : 2, "#000000"); if (o.dizzy) px(lx + 1, 2, "#000000");
+        }
+      });
+    }
+    if (acc === "fox") {
+      // pointed ears with dark tips and pale insides
+      [[1, 4, 1], [14, 11, -1]].forEach(([outer, inner, d]) => {
+        for (let x = Math.min(outer, inner); x <= Math.max(outer, inner); x++) px(x, 2, sk.body);
+        px(outer, 1, sk.body); px(outer + d, 1, sk.body); px(outer + 2 * d, 1, sk.body);
+        px(outer, 0, "#1d1c21"); px(outer + d, 0, "#1d1c21");
+        px(outer + d, 2, "#f0e4d4"); px(outer + 2 * d, 2, "#f0e4d4"); px(outer + d, 1, "#f0e4d4");
+      });
+      // pale muzzle and cheeks
+      for (let y = 10; y <= 15; y++) for (let x = 2; x <= 13; x++) if (x <= 3 || x >= 12 || y === 10 || y === 15) if (!(y === 10 && x > 4 && x < 11)) px(x, y, "#f0e4d4");
+    }
+    if (acc === "bow") {
+      const R = "#c9433b", Rd = "#8f2a24";
+      [[10, 1], [10, 2], [10, 3], [11, 2], [12, 2], [13, 1], [13, 2], [13, 3]].forEach(([x, y]) => px(x, y, x === 12 ? Rd : R));
+      px(14, 1, R); px(9, 1, R);
+    }
+    // eyes: button (x3-5) and sewn-shut X (x10-12)
+    const cross = x0 => [[0, 6], [2, 6], [1, 7], [0, 8], [2, 8]].forEach(([dx, y]) => px(x0 + dx, y, FEAT));
+    if (acc === "frog") {
+      px(3, 8, "#d98a8a"); px(4, 8, "#d98a8a"); px(11, 8, "#d98a8a"); px(12, 8, "#d98a8a");
+    } else if (acc === "shades" && !o.dizzy) {
+      for (let x = 2; x <= 13; x++) px(x, 6, FEAT);
+      for (let y = 7; y <= 8; y++) { for (let x = 2; x <= 6; x++) px(x, y, "#050505"); for (let x = 9; x <= 13; x++) px(x, y, "#050505"); }
+      px(3, 7, "#8a8781"); px(10, 7, "#8a8781");
+    } else {
+      if (o.dizzy) cross(3);
+      else if (o.blink) { for (let x = 3; x <= 5; x++) px(x, 7, FEAT); }
+      else {
+        for (let y = 6; y <= 8; y++) for (let x = 3; x <= 5; x++) px(x, y, FEAT);
+        px(4 + Math.max(-1, Math.min(1, o.look || 0)), 7 + Math.max(-1, Math.min(1, o.lookY || 0)), HOLE);
+      }
+      cross(10);
+    }
+    // stitched mouth, or an "o" when poked
+    if (o.mouth === "o") { px(7, 9, FEAT); px(8, 9, FEAT); px(7, 10, FEAT); px(8, 10, FEAT); }
+    else [5, 7, 8, 10].forEach(x => px(x, 9, FEAT));
+    // the big red mouth with teeth: x4..11, y12..15 (teeth top and bottom, gums in between)
+    const RED = "#c9433b", GUM = "#d9827b";
+    for (let y = 11; y <= 14; y++) for (let x = 4; x <= 11; x++) {
+      const m = Math.min(x, 15 - x);
+      if (y === 11 || y === 14) { px(x, y, (x + y) % 2 === 1 ? "#f2f0eb" : RED); continue; }
+      if (x === 4 || x === 11) { px(x, y, RED); continue; }
+      px(x, y, y === 12 && m % 2 === 1 ? GUM : RED);
+    }
+    if (acc === "pearls") [2, 4, 6, 9, 11, 13].forEach(x => px(x, 15, "#f7f5f0"));
+    // short pin legs (2px): x 3, 6, 9, 12; alternate pairs lift while walking
+    [3, 6, 9, 12].forEach((x, i) => {
+      const lift = f && ((i + f) % 2) ? 1 : 0;
+      fixed(x, 17 - (o.lift || 0) - (f ? 1 : 0), C.pin);
+      if (!lift) fixed(x, 18, C.pin);
+    });
+  }
+  const formState = new WeakMap();
+  const fst = cv => { let st = formState.get(cv); if (!st) { st = { outfit: null, key: "", timer: 0, walk: 0, f: 0 }; formState.set(cv, st); } return st; };
+  function dressForm(cv, outfit, animate) {
+    const st = fst(cv), key = outfit ? outfit.fill + outfit.pattern + outfit.kind : "bare";
+    if (st.key === key && !animate) return;
+    st.key = key; st.outfit = outfit || null; clearInterval(st.timer);
+    if (st.walk) return;
+    if (!outfit || !animate || reduced()) { paintForm(cv, outfit || {}); return; }
+    let row = -1; st.timer = setInterval(() => { paintForm(cv, { ...outfit, reveal: row, frame: row % 2 ? 1 : 0 }); if (++row > 6) { clearInterval(st.timer); paintForm(cv, outfit); } }, 110);
+  }
+  // "busy" = Bodkin scuttles on its pin legs
+  function tapeForm(cv, on) {
+    const st = fst(cv); clearInterval(st.walk); st.walk = 0;
+    if (!on || reduced()) { paintForm(cv, st.outfit || {}); return; }
+    st.walk = setInterval(() => paintForm(cv, { ...(st.outfit || {}), frame: 1 + (st.f++ % 2) }), 150);
+  }
+  // idle blink for every Bodkin on screen
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => {
+    document.querySelectorAll("canvas.formcv").forEach(cv => {
+      const st = fst(cv); if (st.walk || st.timer && st.key !== "bare" && false) return;
+      if (cv.id === "mastForm" && pokeBusy) return;
+      const eyes = cv.id === "mastForm" ? { look, lookY } : {};
+      if (Math.random() < .5) { paintForm(cv, { ...(st.outfit || {}), ...eyes, blink: true }); setTimeout(() => { if (!st.walk && !(cv.id === "mastForm" && pokeBusy)) paintForm(cv, { ...(st.outfit || {}), ...eyes }); }, 160); }
+    });
+  }, 3200);
+  // Pull the main ink colour out of a sketch: skip paper and greys, bucket by hue, take the busiest bucket.
+  async function sketchColor(src) {
+    try {
+      const img = await loadImg(src);
+      const k = Math.min(1, 96 / Math.max(img.naturalWidth, img.naturalHeight));
+      const W = Math.max(1, Math.round(img.naturalWidth * k)), H = Math.max(1, Math.round(img.naturalHeight * k));
+      const c = document.createElement("canvas"); c.width = W; c.height = H;
+      const g = c.getContext("2d", { willReadFrequently: true }); g.drawImage(img, 0, 0, W, H);
+      const d = g.getImageData(0, 0, W, H).data, buckets = new Map(); let dark = 0, darkN = 0;
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i + 3] < 128) continue;
+        const r = d[i], gg = d[i + 1], b = d[i + 2], mx = Math.max(r, gg, b), mn = Math.min(r, gg, b), ch = mx - mn, l = (mx + mn) / 2;
+        if (ch < 38) { if (l < 90) { dark++; darkN++; } continue; }
+        let h = 0; if (mx === r) h = ((gg - b) / ch) % 6; else if (mx === gg) h = (b - r) / ch + 2; else h = (r - gg) / ch + 4;
+        const key = Math.round(((h * 60 + 360) % 360) / 24);
+        const e = buckets.get(key) || { n: 0, r: 0, g: 0, b: 0 }; e.n++; e.r += r; e.g += gg; e.b += b; buckets.set(key, e);
+      }
+      let best = null; buckets.forEach(e => { if (!best || e.n > best.n) best = e; });
+      if (best && best.n > 6) return rgbToHex([best.r / best.n, best.g / best.n, best.b / best.n]);
+      return darkN > 6 ? "#34333b" : "#d8d3c6";
+    } catch { return null; }
+  }
+  const outfitCache = new Map();
+  async function outfitFor(it) {
+    if (outfitCache.has(it.id)) return outfitCache.get(it.id);
+    const src = (it.cutoutId ? BLOB(it.cutoutId) : null) || BLOB(it.assetId);
+    const fill = await sketchColor(src);
+    const o = fill ? { fill, pattern: PATTERNS[Math.floor(hash(it.id + "p") * PATTERNS.length)], kind: hash(it.id + "k") > .5 ? "dress" : "top" } : null;
+    outfitCache.set(it.id, o); return o;
+  }
+  let previewOutfit = null;
+  function sizeCanvases() { ["mastForm", "deskForm", "dropForm"].forEach(id => paintForm($("#" + id), {})); }
+
+  /* ---------- cutout engine ----------
+     Estimates the paper colour from the image border, flood-fills the connected
+     background away, then grows a die-cut "sticker" edge so line art reads on black. */
+  const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  async function makeCutout(src, strength = 45) {
+    const img = await loadImg(src);
+    const k = Math.min(1, 1200 / Math.max(img.naturalWidth, img.naturalHeight));
+    const W = Math.max(8, Math.round(img.naturalWidth * k)), H = Math.max(8, Math.round(img.naturalHeight * k)), N = W * H;
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    const g = c.getContext("2d", { willReadFrequently: true }); g.drawImage(img, 0, 0, W, H);
+    const im = g.getImageData(0, 0, W, H), d = im.data;
+    // background colour = median of border pixels
+    const R = [], G2 = [], B = [];
+    const take = i => { R.push(d[i * 4]); G2.push(d[i * 4 + 1]); B.push(d[i * 4 + 2]); };
+    for (let x = 0; x < W; x += 2) { take(x); take((H - 1) * W + x); }
+    for (let y = 0; y < H; y += 2) { take(y * W); take(y * W + W - 1); }
+    const med = a => a.sort((p, q) => p - q)[a.length >> 1];
+    const br = med(R), bg = med(G2), bb = med(B), bl = (br + bg + bb) / 3;
+    const tol = 22 + strength * 1.3;
+    const like = new Uint8Array(N);
+    for (let i = 0; i < N; i++) {
+      const o = i * 4; if (d[o + 3] < 24) { like[i] = 1; continue; }
+      const r = d[o], gg = d[o + 1], b = d[o + 2];
+      const dist = Math.max(Math.abs(r - br), Math.abs(gg - bg), Math.abs(b - bb));
+      const l = (r + gg + b) / 3, chroma = Math.max(r, gg, b) - Math.min(r, gg, b);
+      like[i] = dist < tol || (l > bl - tol * .8 && l >= 110 && chroma < 28 + strength * .3) ? 1 : 0;
+    }
+    // flood fill from every border pixel through background-like pixels
+    const bgm = new Uint8Array(N), q = new Int32Array(N); let h = 0, t = 0;
+    const push = i => { if (like[i] && !bgm[i]) { bgm[i] = 1; q[t++] = i; } };
+    for (let x = 0; x < W; x++) { push(x); push((H - 1) * W + x); }
+    for (let y = 0; y < H; y++) { push(y * W); push(y * W + W - 1); }
+    while (h < t) { const i = q[h++], x = i % W; if (x > 0) push(i - 1); if (x < W - 1) push(i + 1); if (i >= W) push(i - W); if (i < N - W) push(i + W); }
+    let fgCount = 0; for (let i = 0; i < N; i++) if (!bgm[i]) fgCount++;
+    const ratio = fgCount / N;
+    if (ratio < .004 || ratio > .97) return null;
+    // chamfer distance from foreground → sticker edge
+    const rad = Math.max(4, Math.round(Math.max(W, H) * .013));
+    const dist = new Float32Array(N); const BIG = 1e6;
+    for (let i = 0; i < N; i++) dist[i] = bgm[i] ? BIG : 0;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i = y * W + x; let v = dist[i]; if (!v) continue;
+      if (x > 0) v = Math.min(v, dist[i - 1] + 1); if (y > 0) { v = Math.min(v, dist[i - W] + 1); if (x > 0) v = Math.min(v, dist[i - W - 1] + 1.414); if (x < W - 1) v = Math.min(v, dist[i - W + 1] + 1.414); } dist[i] = v; }
+    for (let y = H - 1; y >= 0; y--) for (let x = W - 1; x >= 0; x--) { const i = y * W + x; let v = dist[i]; if (!v) continue;
+      if (x < W - 1) v = Math.min(v, dist[i + 1] + 1); if (y < H - 1) { v = Math.min(v, dist[i + W] + 1); if (x < W - 1) v = Math.min(v, dist[i + W + 1] + 1.414); if (x > 0) v = Math.min(v, dist[i + W - 1] + 1.414); } dist[i] = v; }
+    let x0 = W, y0 = H, x1 = -1, y1 = -1;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (dist[y * W + x] <= rad) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    const ow = x1 - x0 + 1, oh = y1 - y0 + 1;
+    const out = document.createElement("canvas"); out.width = ow; out.height = oh;
+    const og = out.getContext("2d"), od = og.createImageData(ow, oh), o = od.data;
+    for (let y = 0; y < oh; y++) for (let x = 0; x < ow; x++) {
+      const si = (y + y0) * W + (x + x0), di = (y * ow + x) * 4, dv = dist[si];
+      if (dv === 0) { o[di] = d[si * 4]; o[di + 1] = d[si * 4 + 1]; o[di + 2] = d[si * 4 + 2]; o[di + 3] = 255; }
+      else if (dv <= rad) { o[di] = 242; o[di + 1] = 240; o[di + 2] = 235; o[di + 3] = 255; }
+    }
+    og.putImageData(od, 0, 0);
+    const blob = await new Promise(r => out.toBlob(r, "image/png"));
+    return blob ? { blob, w: ow, h: oh, ratio } : null;
+  }
+
+  let cutBlob = null, cutURL = null, cutMode = "cut", cutJob = 0, cutTimer;
+  function paintPreview() {
+    if (!previewURL) return;
+    const useCut = cutMode === "cut" && cutURL;
+    $("#preview").src = useCut ? cutURL : previewURL;
+    drop.classList.toggle("cutview", !!useCut);
+  }
+  async function runCut() {
+    if (!previewURL) return;
+    const job = ++cutJob, src = previewURL;
+    $("#cutSt").textContent = "Cutting out…"; drop.classList.add("cutting"); tapeForm($("#deskForm"), true);
+    let r = null; try { r = await makeCutout(src, +$("#strength").value); } catch { r = null; }
+    if (job !== cutJob) return;
+    drop.classList.remove("cutting"); tapeForm($("#deskForm"), false);
+    if (cutURL) URL.revokeObjectURL(cutURL);
+    cutBlob = r?.blob || null; cutURL = cutBlob ? URL.createObjectURL(cutBlob) : null;
+    $("#cutSt").textContent = r ? "Cut ✓ " + Math.round(r.ratio * 100) + "% kept" : "No clear background · original will be used";
+    paintPreview();
+  }
+  $("#cutModes").addEventListener("click", e => { const b = e.target.closest("[data-cm]"); if (!b) return; cutMode = b.dataset.cm; [...$("#cutModes").children].forEach(x => x.setAttribute("aria-pressed", x === b)); paintPreview(); });
+  $("#strength").addEventListener("input", () => { clearTimeout(cutTimer); $("#cutSt").textContent = "…"; cutTimer = setTimeout(runCut, 220); });
+
+  /* ---------- file handling ---------- */
+  const drop = $("#drop"), fileInput = $("#file");
+  async function normalize(f) {
+    // Convert unsupported-but-decodable types, or shrink oversized files, through a canvas.
+    if (ACCEPT.includes(f.type) && f.size <= 19.5 * 1024 * 1024) return f;
+    const url = URL.createObjectURL(f);
+    try {
+      const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+      const max = 3200, k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
+      const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .9));
+      if (!blob) throw 0;
+      return new File([blob], (f.name || "sketch").replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" });
+    } catch { return null; } finally { URL.revokeObjectURL(url); }
+  }
+  async function takeFile(f) {
+    if (!f) return;
+    if (!canWrite) { toast("This archive is read-only for you", true); return; }
+    if (!f.type.startsWith("image/") && !/\.(heic|heif)$/i.test(f.name)) { drop.classList.remove("bump"); void drop.offsetWidth; drop.classList.add("bump"); toast("That isn't an image. Use PNG, JPG, WEBP or GIF.", true); return; }
+    const n = await normalize(f);
+    if (!n) { drop.classList.remove("bump"); void drop.offsetWidth; drop.classList.add("bump"); toast("Couldn't read that file. Export it as JPG or PNG and try again.", true); return; }
+    file = n; existingAsset = null;
+    if (previewURL) URL.revokeObjectURL(previewURL);
+    previewURL = URL.createObjectURL(n);
+    showPreview(previewURL, `${(n.size / 1024 / 1024).toFixed(1)} MB${n !== f ? " · OPTIMISED" : ""}`);
+    sketchColor(previewURL).then(fill => { if (!fill || !previewURL) return; previewOutfit = { fill, pattern: PATTERNS[Math.floor(Math.random() * PATTERNS.length)], kind: Math.random() > .5 ? "dress" : "top" }; dressForm($("#deskForm"), previewOutfit, true); });
+    $("#cutTools").hidden = false;
+    toast("Sketch loaded ✓ Cutting it out…");
+    runCut();
+    if (!$("#brand").value) $("#brand").focus();
+    validate();
+  }
+  function showPreview(src, meta) {
+    const p = $("#preview"); p.src = src; p.hidden = false; drop.classList.add("has");
+    $("#swapBtn").hidden = !canWrite; $("#fileMeta").hidden = !meta; $("#fileMeta").textContent = meta || "";
+  }
+  function clearPreview() {
+    previewOutfit = null; dressForm($("#deskForm"), null);
+    file = null; existingAsset = null; if (previewURL) URL.revokeObjectURL(previewURL); previewURL = null;
+    $("#preview").hidden = true; $("#preview").removeAttribute("src"); drop.classList.remove("has", "cutview", "cutting"); $("#swapBtn").hidden = true; $("#fileMeta").hidden = true;
+    cutJob++; if (cutURL) URL.revokeObjectURL(cutURL); cutBlob = null; cutURL = null; $("#cutTools").hidden = true;
+  }
+  drop.addEventListener("click", e => { if (busy) return; if (e.target.closest("#swapBtn") || !drop.classList.contains("has")) fileInput.click(); });
+  drop.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInput.click(); } });
+  fileInput.addEventListener("change", () => { takeFile(fileInput.files[0]); fileInput.value = ""; });
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "dragend"].forEach(ev => drop.addEventListener(ev, e => { if (!drop.contains(e.relatedTarget)) drop.classList.remove("over"); }));
+  drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); takeFile(e.dataTransfer.files[0]); });
+  window.addEventListener("dragover", e => e.preventDefault());
+  window.addEventListener("drop", e => { e.preventDefault(); if (!drop.contains(e.target) && e.dataTransfer.files[0]) takeFile(e.dataTransfer.files[0]); });
+  document.addEventListener("paste", e => { const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith("image/")); if (it) { e.preventDefault(); takeFile(it.getAsFile()); } });
+
+  /* ---------- form ---------- */
+  const cats = $("#cats");
+  cats.addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; category = b.dataset.v; [...cats.children].forEach(c => c.setAttribute("aria-pressed", c === b)); });
+  function setCategory(v) { category = v; [...cats.children].forEach(c => c.setAttribute("aria-pressed", c.dataset.v === v)); }
+  function updateCounts() { $("#brandCnt").textContent = $("#brand").value.length + "/60"; const w = $("#notes").value.trim().split(/\s+/).filter(Boolean).length; $("#notesCnt").textContent = w + (w === 1 ? " WORD" : " WORDS"); }
+  function validate() {
+    const hasImg = !!file || !!existingAsset, hasBrand = !!$("#brand").value.trim();
+    const ok = canWrite && hasImg && hasBrand && !busy;
+    $("#submitBtn").disabled = !ok;
+    $("#hint").textContent = !canWrite ? (connecting ? "Connecting archive…" : "Archive offline") : busy ? "Working…" : !hasImg && !hasBrand ? "Sketch + brand required" : !hasImg ? "Add your sketch" : !hasBrand ? "Name the house" : "Ready to file ✓";
+  }
+  ["brand", "notes"].forEach(id => $("#" + id).addEventListener("input", () => { updateCounts(); validate(); }));
+  updateCounts(); validate();
+
+  let progTimer;
+  function progress(on, pct, txt) {
+    $("#prog").classList.toggle("on", on);
+    clearInterval(progTimer);
+    if (!on) return;
+    let cur = pct;
+    const paint = () => { const n = Math.round(cur / 100 * 24); [...bar.children].forEach((b, i) => b.classList.toggle("on", i < n)); $("#progPct").textContent = Math.round(cur) + "%"; };
+    $("#progTxt").textContent = txt; paint();
+    if (pct < 100) progTimer = setInterval(() => { cur = Math.min(92, cur + (92 - cur) * .08); paint(); }, 120);
+  }
+
+  $("#form").addEventListener("submit", async e => {
+    e.preventDefault(); if (busy) return;
+    const brand = $("#brand").value.trim();
+    if (!brand || !(file || existingAsset)) { validate(); return; }
+    busy = true; validate();
+    [...$("#form").elements].forEach(el => el.disabled = true);
+    let uploadedId = null, uploadedCut = null;
+    try {
+      let assetId = existingAsset;
+      if (file) {
+        progress(true, 6, "Uploading sketch…");
+        let r;
+        try { r = await assets.upload(file, { type: file.type }); }
+        catch (err) { if (err?.code === "store_unavailable") { await new Promise(r => setTimeout(r, 900)); r = await assets.upload(file, { type: file.type }); } else throw err; }
+        assetId = r.id; uploadedId = r.id;
+      }
+      const prevIt = editingId ? issues.find(i => i.id === editingId) || {} : {};
+      let cutoutId = file ? null : (prevIt.cutoutId || null), noCut = file ? cutMode !== "cut" : !!prevIt.noCut;
+      if (file && cutMode === "cut" && cutBlob) {
+        progress(true, 55, "Uploading cutout…");
+        try { const c = await assets.upload(cutBlob, { type: "image/png" }); cutoutId = c.id; uploadedCut = c.id; } catch { cutoutId = null; noCut = false; }
+      } else if (file && cutMode === "cut") noCut = true;
+      progress(true, 94, "Filing issue…");
+      const kw = $("#kw").value.split(",").map(s => s.trim()).filter(Boolean).slice(0, 12);
+      const body = { brand, category, date: $("#date").value || todayISO(), keywords: kw, notes: $("#notes").value.trim(), assetId, cutoutId, noCut };
+      const oldAsset = editingId ? issues.find(i => i.id === editingId)?.assetId : null;
+      if (editingId) {
+        const prev = issues.find(i => i.id === editingId) || {};
+        await db.doc("issues/" + editingId).set({ ...body, createdAt: prev.createdAt || Date.now(), updatedAt: Date.now() });
+        freshId = editingId;
+        if (uploadedId && oldAsset && oldAsset !== uploadedId) { assets.delete(oldAsset).catch(() => {}); if (prev.cutoutId) assets.delete(prev.cutoutId).catch(() => {}); }
+      } else {
+        const ref = db.collection("issues").doc();
+        await ref.set({ ...body, createdAt: Date.now() });
+        freshId = ref.id;
+      }
+      progress(true, 100, "Filed ✓");
+      tapeForm($("#deskForm"), true); setTimeout(() => tapeForm($("#deskForm"), false), 900);
+      const r = $("#submitBtn").getBoundingClientRect(); burst(r.left + r.width / 2, r.top);
+      const wasEdit = !!editingId;
+      setTimeout(() => progress(false), 900);
+      resetForm();
+      toast(wasEdit ? "Issue updated ✓" : `Filed ✓ ${brand} is on the stand`);
+      setTimeout(() => openArchive(), 650);
+    } catch (err) {
+      progress(false);
+      const c = err?.code;
+      const msg = c === "too_large" ? "That image is over 20 MB. Export a smaller version." :
+                  c === "unsupported_type" ? "That format isn't supported. Use PNG, JPG, WEBP or GIF." :
+                  c === "quota_or_state" || c === "quota_exceeded" ? "Archive storage is full. Delete an old issue to make room." :
+                  c === "rate_limited" || c === "resource_exhausted" ? "Too many uploads at once. Wait a moment and try again." :
+                  c === "upstream_auth" ? "Your session expired. Reload the page and try again." :
+                  "Upload didn't go through. Check your connection and try again.";
+      toast(msg, true);
+      if (uploadedId) assets.delete(uploadedId).catch(() => {});
+      if (uploadedCut) assets.delete(uploadedCut).catch(() => {});
+    } finally {
+      busy = false; [...$("#form").elements].forEach(el => el.disabled = false); validate();
+    }
+  });
+
+  function resetForm() {
+    editingId = null; clearPreview();
+    $("#brand").value = ""; $("#kw").value = ""; $("#notes").value = ""; $("#date").value = todayISO(); setCategory("Luxury");
+    $("#submitBtn").textContent = "File today's issue →"; $("#cancelEdit").hidden = true; $("#deskTitle").textContent = "Today's Lineup";
+    updateCounts(); validate();
+  }
+  $("#cancelEdit").onclick = () => { resetForm(); toast("Edit cancelled"); };
+
+  function startEdit(it) {
+    closeSheet(); closeArchive(true);
+    editingId = it.id; file = null; existingAsset = it.assetId;
+    showPreview(BLOB(it.assetId), "CURRENT SKETCH");
+    $("#brand").value = it.brand || ""; $("#kw").value = (it.keywords || []).join(", "); $("#notes").value = it.notes || ""; $("#date").value = it.date || todayISO(); setCategory(it.category || "Luxury");
+    $("#submitBtn").textContent = "Save changes →"; $("#cancelEdit").hidden = false; $("#deskTitle").textContent = "Editing N°" + pad(numberOf(it.id));
+    updateCounts(); validate();
+    jump("s-desk");
+  }
+
+  /* ---------- archive render ---------- */
+  const sorted = () => [...issues].sort((a, b) => (a.date === b.date ? (a.createdAt || 0) - (b.createdAt || 0) : a.date < b.date ? -1 : 1));
+  const numberOf = id => sorted().findIndex(i => i.id === id) + 1;
+
+  $("#filters").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; filter = b.dataset.f; [...$("#filters").querySelectorAll(".chip")].forEach(c => c.setAttribute("aria-pressed", c === b)); render(); });
+  $("#q").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); render(); });
+
+  function stats() {
+    const dates = new Set(issues.map(i => i.date));
+    let d = new Date(), streak = 0;
+    if (!dates.has(localISO(d))) d.setDate(d.getDate() - 1);
+    while (dates.has(localISO(d))) { streak++; d.setDate(d.getDate() - 1); }
+    $("#sTotal").textContent = issues.length;
+    $("#sStreak").textContent = streak;
+    $("#sBrands").textContent = new Set(issues.map(i => (i.brand || "").toLowerCase())).size;
+    const doneToday = dates.has(todayISO());
+    $("#sToday").textContent = doneToday ? "FILED ✓" : "OPEN";
+    $("#mastNo").textContent = "N°" + pad(issues.length + (doneToday ? 0 : 1));
+    // last 14 days pips
+    const pips = []; const p = new Date(); p.setDate(p.getDate() - 13);
+    for (let i = 0; i < 14; i++) { pips.push(`<span class="pip ${dates.has(localISO(p)) ? "on" : ""}"></span>`); p.setDate(p.getDate() + 1); }
+    $("#sPips").innerHTML = pips.join("");
+    dressMast();
+  }
+  let mastTarget = null, mastKey = "";
+  async function dressMast() {
+    const all = sorted(), today = all.filter(i => i.date === todayISO()).at(-1), it = today || null;
+    mastTarget = it;
+    const key = it ? it.id + (it.cutoutId || "") : "bare";
+    if (key === mastKey) return; const first = mastKey === ""; mastKey = key;
+    if (!it) {
+      dressForm($("#mastForm"), null); $("#mascot").classList.remove("dressed");
+      $("#mastCap").textContent = "awaits today’s look";
+      $("#mascot").setAttribute("aria-label", "Bodkin has no patch yet. File today's lineup");
+      return;
+    }
+    const o = await outfitFor(it); if (mastTarget !== it) return;
+    dressForm($("#mastForm"), o, !first);
+    $("#mascot").classList.add("dressed");
+    $("#mastCap").textContent = "in " + it.brand;
+    $("#mascot").setAttribute("aria-label", "Bodkin wearing today's patch: " + it.brand);
+  }
+  $("#capLink").addEventListener("click", () => { if (mastTarget) openSheet(mastTarget.id); else jump("s-desk"); });
+
+  /* poke Bodkin: blink, hop, say something; poke it a lot and it gets dizzy */
+  const LINES_IDLE = ["Ow. That's a pin.", "Still undressed.", "Feed me a sketch.", "Who's today's house?", "I go with black.", "Stitch me something."];
+  const LINES_DRESSED = brand => [`Wearing ${brand}.`, "Rate the hem.", "Fits like a pin.", "Runway ready.", `${brand}, darling.`, "Look at the seam."];
+  let pokes = [], pokeBusy = false, bubbleT, look = 0, lookY = 0;
+  function say(t) { const b = $("#bubble"); b.textContent = t; b.hidden = false; b.style.animation = "none"; void b.offsetWidth; b.style.animation = ""; clearTimeout(bubbleT); bubbleT = setTimeout(() => { b.hidden = true; }, 1900); }
+  function mastPaint(extra = {}) { const cv = $("#mastForm"), st = fst(cv); paintForm(cv, { ...(st.outfit || {}), look, lookY, ...extra }); }
+  $("#poke").addEventListener("click", () => {
+    const now = Date.now(); pokes = pokes.filter(t => now - t < 1600); pokes.push(now);
+    if (pokeBusy) return; pokeBusy = true;
+    const dizzy = pokes.length >= 5;
+    const seq = dizzy
+      ? [{ dizzy: true, lift: 1, mouth: "o", wiggle: 1 }, { dizzy: true }, { dizzy: true, lift: 1, wiggle: 1 }, { dizzy: true }, { dizzy: true, wiggle: 1 }, {}]
+      : [{ blink: true, lift: 1, mouth: "o", wiggle: 1 }, { lift: 2, mouth: "o" }, { lift: 1, wiggle: 1 }, { blink: true }, { wiggle: 1 }, {}];
+    if (dizzy) { say("Too many pins…"); pokes = []; }
+    else {
+      wearIdx = (wearIdx + 1) % WARDROBE.length;
+      try { localStorage.setItem("dl-bodkin-look", WARDROBE[wearIdx].id); } catch {}
+      say(WARDROBE[wearIdx].line);
+      setTimeout(() => document.querySelectorAll("canvas.formcv").forEach(cv => { if (cv.id !== "mastForm") { const st = fst(cv); if (!st.walk && !st.timer) paintForm(cv, st.outfit || {}); } }), 300);
+    }
+    let i = 0; const t = setInterval(() => { mastPaint(seq[i]); if (++i >= seq.length) { clearInterval(t); pokeBusy = false; } }, dizzy ? 150 : 90);
+  });
+  // eyes follow the pointer
+  let lookRaf = 0;
+  addEventListener("pointermove", e => {
+    if (lookRaf || reduced()) return;
+    lookRaf = requestAnimationFrame(() => {
+      lookRaf = 0; const r = $("#mastForm").getBoundingClientRect(); if (!r.width) return;
+      const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height * .3);
+      const nl = Math.abs(dx) < 30 ? 0 : Math.sign(dx), ny = Math.abs(dy) < 30 ? 0 : Math.sign(dy);
+      if (nl !== look || ny !== lookY) { look = nl; lookY = ny; const st = fst($("#mastForm")); if (!pokeBusy && !st.timer && !st.walk) mastPaint(); }
+    });
+  }, { passive: true });
+
+  /* collection: cutouts accumulate into a lineup / flat lay */
+  let mode = "lineup";
+  try { mode = localStorage.getItem("dl-mode") || "lineup"; } catch {}
+  const localCuts = new Map(); const cutQueue = []; let cutBusy = false;
+  const cutSrc = i => i.cutoutId ? BLOB(i.cutoutId) : localCuts.get(i.id) || null;
+  function queueLegacyCut(i) {
+    if (i.cutoutId || i.noCut || localCuts.has(i.id) || cutQueue.includes(i.id)) return;
+    cutQueue.push(i.id); pumpCuts();
+  }
+  async function pumpCuts() {
+    if (cutBusy || !cutQueue.length) return; cutBusy = true;
+    const id = cutQueue.shift(), it = issues.find(x => x.id === id);
+    try {
+      const r = it && await makeCutout(BLOB(it.assetId), 45);
+      if (r) {
+        localCuts.set(id, URL.createObjectURL(r.blob)); render();
+        if (canWrite) { const up = await assets.upload(r.blob, { type: "image/png" }); await db.doc("issues/" + id).update({ cutoutId: up.id }); }
+      } else if (it) { localCuts.set(id, null); if (canWrite) await db.doc("issues/" + id).update({ noCut: true }); }
+    } catch { if (!localCuts.has(id)) { localCuts.set(id, null); render(); } }
+    cutBusy = false; pumpCuts();
+  }
+  const hash = s => { let h = 2166136261; for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return (h >>> 0) / 4294967295; };
+
+  function render() {
+    stats();
+    $("#archN").textContent = pad(issues.length, 2);
+    $("#archCount").textContent = issues.length + (issues.length === 1 ? " look" : " looks");
+    [...$("#modes").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.m === mode));
+    if ($("#arch").hidden) return;
+    const root = $("#archive");
+    const all = sorted();
+    const list = all.filter(i => (filter === "All" || i.category === filter) && (!query || (i.brand + " " + (i.keywords || []).join(" ") + " " + (i.notes || "")).toLowerCase().includes(query)));
+    if (!issues.length) {
+      root.innerHTML = `<div class="empty"><canvas class="formcv" id="emptyForm" aria-hidden="true"></canvas><div class="big">The rail is empty.</div><p>Each sketch you file is cut out from its paper and added here, one look after another, until the collection becomes a full lineup.</p><button type="button" class="btn solid" id="emptyFile">File the first look</button></div>`;
+      $("#emptyFile").onclick = () => { closeArchive(); jump("s-desk"); };
+      paintForm($("#emptyForm"), {});
+      return;
+    }
+    if (!list.length) { root.innerHTML = `<div class="empty"><div class="big">Nothing on this rail.</div><p>No looks match that filter. Try another category or clear the search.</p></div>`; return; }
+    const fresh = freshId;
+    root.innerHTML = `<div class="${mode === "flat" ? "flat" : "lineup"}">${list.map(i => {
+      const n = all.indexOf(i) + 1, src = cutSrc(i), pending = !src && !i.noCut && !localCuts.has(i.id);
+      if (pending) queueLegacyCut(i);
+      const hr = hash(i.id), r = ((hr * 16) - 8).toFixed(1), x = Math.round((hash(i.id + "x") - .5) * 16), y = Math.round((hash(i.id + "y") - .5) * 22);
+      return `<button type="button" class="look ${i.id === fresh ? "fresh" : ""}" data-id="${esc(i.id)}" style="--r:${r}deg;--x:${x}px;--y:${y}px" aria-label="Look ${n}: ${esc(i.brand)}">
+        <div class="fig"><img class="${src ? "" : "raw"}" src="${esc(src || BLOB(i.assetId))}" alt="Lineup sketch for ${esc(i.brand)}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
+        ${pending ? `<span class="pending">CUTTING…</span>` : ""}
+        <div class="lbl"><b>N°${pad(n)}</b><span class="br">${esc(i.brand)}</span><span>${esc(fmtDate(i.date).slice(0, 6))}</span></div>
+      </button>`; }).join("")}${mode === "lineup" && filter === "All" && !query && canWrite ? `<button type="button" class="look next" id="nextLook" aria-label="File the next look">
+        <div class="fig"><canvas class="formcv" aria-hidden="true"></canvas></div>
+        <div class="lbl"><b>N°${pad(all.length + 1)}</b><span class="br">Next look</span><span>Bodkin is waiting</span></div></button>` : ""}</div>`;
+    const nl = $("#nextLook"); if (nl) { paintForm(nl.querySelector("canvas"), {}); nl.onclick = e => { e.stopPropagation(); closeArchive(); jump("s-desk"); }; }
+    if (fresh) { freshId = null; requestAnimationFrame(() => root.querySelector(".look.fresh")?.scrollIntoView({ block: "center", inline: "nearest" })); }
+  }
+  $("#archive").addEventListener("click", e => { const c = e.target.closest(".look"); if (c) openSheet(c.dataset.id); });
+  $("#modes").addEventListener("click", e => { const b = e.target.closest("[data-m]"); if (!b) return; mode = b.dataset.m; try { localStorage.setItem("dl-mode", mode); } catch {} render(); });
+
+  let archReturn = null;
+  function openArchive() {
+    const a = $("#arch"); if (!a.hidden) { render(); return; }
+    archReturn = document.activeElement;
+    a.hidden = false; document.documentElement.classList.add("locked"); a.scrollTop = 0;
+    render(); setTimeout(() => $("#archClose").focus({ preventScroll: true }), 50);
+  }
+  function closeArchive(silent) {
+    const a = $("#arch"); if (a.hidden) return;
+    a.hidden = true; document.documentElement.classList.remove("locked");
+    if (!silent) archReturn?.focus?.({ preventScroll: true });
+  }
+  document.addEventListener("click", e => { if (e.target.closest("[data-arch]")) { e.preventDefault(); openArchive(); } });
+  $("#archClose").onclick = () => closeArchive();
+
+  /* ---------- detail sheet ---------- */
+  let lastFocus = null;
+  function openSheet(id) {
+    const it = issues.find(i => i.id === id); if (!it) return;
+    lastFocus = document.activeElement;
+    const n = numberOf(id);
+    $("#overlayRoot").innerHTML = `<div class="overlay" id="ov" role="dialog" aria-modal="true" aria-label="Issue ${n}">
+      <div class="sheet">
+        <div class="pic ${cutSrc(it) ? "cutview" : ""}" id="shPic"><img id="shImg" src="${esc(cutSrc(it) || BLOB(it.assetId))}" alt="Lineup sketch for ${esc(it.brand)}">
+          ${cutSrc(it) ? `<div class="seg" id="shSeg" role="group" aria-label="View"><button type="button" data-v="cut" aria-pressed="true">Cutout</button><button type="button" data-v="orig" aria-pressed="false">Original</button></div>` : ""}</div>
+        <div class="txt">
+          <div class="kick"><span>N°${pad(n)} · ${esc(fmtDate(it.date))}</span><span>${esc(it.category)}</span></div>
+          <h3>${esc(it.brand)}</h3>
+          ${(it.keywords || []).length ? `<div class="kw">${it.keywords.map(k => `<span>${esc(k)}</span>`).join("")}</div>` : ""}
+          <div class="notes ${it.notes ? "" : "none"}">${it.notes ? esc(it.notes) : "No research notes filed for this issue."}</div>
+          <div class="actions">
+            <button class="btn" id="shClose">Close</button>
+            ${canWrite ? `<button class="btn ghost" id="shEdit">Edit</button><button class="btn danger" id="shDel">Delete</button>` : ""}
+          </div>
+        </div>
+      </div></div>`;
+    const ov = $("#ov");
+    ov.addEventListener("click", e => { if (e.target === ov) closeSheet(); });
+    $("#shClose").onclick = closeSheet; $("#shClose").focus();
+    $("#shSeg")?.addEventListener("click", e => { const b = e.target.closest("[data-v]"); if (!b) return; const cut = b.dataset.v === "cut";
+      [...$("#shSeg").children].forEach(x => x.setAttribute("aria-pressed", x === b)); $("#shImg").src = cut ? cutSrc(it) : BLOB(it.assetId); $("#shPic").classList.toggle("cutview", cut); });
+    if (canWrite) {
+      $("#shEdit").onclick = () => startEdit(it);
+      let armed = false, t;
+      $("#shDel").onclick = async () => {
+        const b = $("#shDel");
+        if (!armed) { armed = true; b.classList.add("armed"); b.textContent = "Tap again to delete"; t = setTimeout(() => { armed = false; b.classList.remove("armed"); b.textContent = "Delete"; }, 3000); return; }
+        clearTimeout(t); b.disabled = true; b.textContent = "Deleting…";
+        try { await db.doc("issues/" + it.id).delete(); assets.delete(it.assetId).catch(() => {}); if (it.cutoutId) assets.delete(it.cutoutId).catch(() => {}); closeSheet(); toast(`N°${pad(n)} · ${it.brand} removed`); if (editingId === it.id) resetForm(); }
+        catch { b.disabled = false; b.textContent = "Delete"; toast("Couldn't delete. Try again.", true); }
+      };
+    }
+  }
+  function closeSheet() { $("#overlayRoot").innerHTML = ""; lastFocus?.focus?.(); }
+  document.addEventListener("keydown", e => { if (e.key !== "Escape") return; if ($("#ov")) closeSheet(); else closeArchive(); });
+
+  /* ---------- section jumps & dots ---------- */
+  const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const topOf = id => document.getElementById(id).getBoundingClientRect().top + scrollY;
+  const ease = t => 1 - Math.pow(1 - t, 4); // quartic ease-out: fast start, soft landing
+  let animId = 0, animating = false;
+  function smoothTo(y, dur = 640) {
+    const html = document.documentElement;
+    cancelAnimationFrame(animId);
+    y = Math.max(0, Math.min(y, html.scrollHeight - innerHeight));
+    if (reduced()) { scrollTo({ top: y, behavior: "instant" }); return Promise.resolve(); }
+    html.style.scrollSnapType = "none"; html.style.scrollBehavior = "auto"; animating = true;
+    const y0 = scrollY, dy = y - y0, t0 = performance.now();
+    return new Promise(res => {
+      const step = now => {
+        const t = Math.min(1, (now - t0) / dur);
+        scrollTo(0, y0 + dy * ease(t));
+        if (t < 1) animId = requestAnimationFrame(step);
+        else { animating = false; html.style.scrollSnapType = ""; html.style.scrollBehavior = ""; res(); }
+      };
+      animId = requestAnimationFrame(step);
+    });
+  }
+  const jump = id => document.getElementById(id) && smoothTo(topOf(id));
+  document.addEventListener("click", e => { const j = e.target.closest("[data-jump]"); if (j) { e.preventDefault(); jump(j.dataset.jump); } });
+  const dots = [...document.querySelectorAll(".dots button")];
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) dots.forEach(d => d.setAttribute("aria-current", d.dataset.jump === en.target.id)); }), { rootMargin: "-45% 0px -45% 0px" });
+  document.querySelectorAll(".snap").forEach(s => io.observe(s));
+
+  /* ---------- page-flip gesture: the page follows the finger, then glides to the next screen ---------- */
+  const softSnap = matchMedia("(max-width:880px),(max-height:620px)");
+  const wrapEl = document.querySelector(".wrap");
+  const locked = () => document.documentElement.classList.contains("locked");
+  let flipLock = false;
+  async function flipTo(id) {
+    if (flipLock) return; flipLock = true;
+    await smoothTo(topOf(id), 620);
+    setTimeout(() => { flipLock = false; }, 80);
+  }
+  const zone = () => { const d = topOf("s-desk"); return scrollY < d - 4 ? "cover" : Math.abs(scrollY - d) <= 6 ? "deskTop" : "free"; };
+  const editable = t => locked() || (t.closest && t.closest("input,textarea,select,.overlay,.arch,.cut-tools"));
+  const rubber = d => Math.sign(d) * Math.min(Math.abs(d) * .55, 160);
+  let tY = null, tZone = null, tT = 0, lastDy = 0;
+  addEventListener("touchstart", e => {
+    if (!softSnap.matches || flipLock || editable(e.target)) { tY = null; return; }
+    tY = e.touches[0].clientY; tZone = zone(); tT = performance.now(); lastDy = 0;
+  }, { passive: true });
+  addEventListener("touchmove", e => {
+    if (tY == null) return;
+    const dy = tY - e.touches[0].clientY;
+    const active = tZone === "cover" || (tZone === "deskTop" && dy < 0);
+    if (!active) return;
+    e.preventDefault(); lastDy = dy;
+    wrapEl.classList.remove("release"); wrapEl.classList.add("dragging");
+    wrapEl.style.transform = `translate3d(0,${-rubber(dy)}px,0)`;
+  }, { passive: false });
+  addEventListener("touchend", () => {
+    if (tY == null) return;
+    const dy = lastDy, speed = Math.abs(dy) / Math.max(1, performance.now() - tT); tY = null;
+    const wasDragging = wrapEl.classList.contains("dragging");
+    if (!wasDragging) return;
+    const shift = rubber(dy);
+    // hand the visual offset over to real scroll so nothing jumps, then glide
+    wrapEl.classList.remove("dragging"); wrapEl.style.transform = "";
+    scrollTo({ top: scrollY + shift, behavior: "instant" });
+    const go = Math.abs(dy) > 36 || speed > .35;
+    if (tZone === "cover") flipTo(go && dy > 0 ? "s-desk" : "s-cover");
+    else if (tZone === "deskTop") flipTo(go && dy < 0 ? "s-cover" : "s-desk");
+  }, { passive: true });
+  addEventListener("touchcancel", () => { tY = null; wrapEl.classList.remove("dragging"); wrapEl.style.transform = ""; });
+  let wheelAcc = 0, wheelT;
+  addEventListener("wheel", e => {
+    if (!softSnap.matches || locked()) return;
+    const z = zone();
+    if (z === "cover" || (z === "deskTop" && e.deltaY < 0)) {
+      e.preventDefault(); if (flipLock) return;
+      wheelAcc += e.deltaY; clearTimeout(wheelT); wheelT = setTimeout(() => { wheelAcc = 0; }, 160);
+      if (Math.abs(wheelAcc) > 24) { const dn = wheelAcc > 0; wheelAcc = 0; flipTo(dn ? "s-desk" : "s-cover"); }
+    }
+  }, { passive: false });
+  render();
+
+  /* ---------- on-device archive ---------- */
+  function offline(msg) {
+    canWrite = false; connecting = false; $("#tkStatus").textContent = msg; validate();
+  }
+  const netState = () => { if (!connecting && canWrite) $("#tkStatus").textContent = navigator.onLine ? "Saved on this device ●" : "Offline · still saving ●"; };
+  addEventListener("online", netState); addEventListener("offline", netState);
+  (async () => {
+    if (!window.indexedDB || !window.LocalStore) { offline("This browser can't store the archive"); return; }
+    try {
+      const store = await LocalStore.open();
+      db = store.db; assets = store.assets; BLOB = store.blobUrl; raw = store.raw;
+      canWrite = true; connecting = false; netState(); validate();
+      db.collection("issues").onSnapshot(snap => {
+        issues = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(i => i.assetId && i.date);
+        render();
+      });
+    } catch (e) { console.error(e); offline("Archive unavailable · private browsing?"); }
+  })();
+
+  /* ---------- backup & restore (zip: lineup.json + images) ---------- */
+  const extOf = t => ({ "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif" })[t] || "bin";
+  $("#backupBtn").addEventListener("click", async () => {
+    if (!raw || !window.JSZip) { toast("Backup isn't available yet. Try again in a moment.", true); return; }
+    const btn = $("#backupBtn"); btn.disabled = true; btn.textContent = "Packing…";
+    try {
+      const rows = await raw.issues(), zip = new JSZip(), ids = new Set();
+      rows.forEach(r => { if (r.assetId) ids.add(r.assetId); if (r.cutoutId) ids.add(r.cutoutId); });
+      const files = {};
+      for (const id of ids) { const bl = await raw.blob(id); if (bl) { const name = "images/" + id + "." + extOf(bl.type); zip.file(name, bl); files[id] = { name, type: bl.type }; } }
+      zip.file("lineup.json", JSON.stringify({ app: "the-daily-lineup", version: 1, exportedAt: new Date().toISOString(), issues: rows, files }, null, 2));
+      const blob = await zip.generateAsync({ type: "blob", compression: "STORE" });
+      const fname = `daily-lineup-backup-${todayISO()}.zip`;
+      const f = new File([blob], fname, { type: "application/zip" });
+      if (navigator.canShare && navigator.canShare({ files: [f] })) {
+        try { await navigator.share({ files: [f], title: "The Daily Lineup backup" }); toast(`Backup ready · ${rows.length} looks`); }
+        catch (e) { if (e.name !== "AbortError") throw e; }
+      } else {
+        const a = document.createElement("a"); a.href = URL.createObjectURL(f); a.download = fname; document.body.appendChild(a); a.click();
+        setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+        toast(`Backup saved · ${rows.length} looks`);
+      }
+    } catch (e) { console.error(e); toast("Backup failed. Free up some space and try again.", true); }
+    btn.disabled = false; btn.textContent = "Backup ↓";
+  });
+  $("#restoreBtn").addEventListener("click", () => $("#restoreFile").click());
+  $("#restoreFile").addEventListener("change", async e => {
+    const f = e.target.files[0]; e.target.value = ""; if (!f || !raw) return;
+    const btn = $("#restoreBtn"); btn.disabled = true; btn.textContent = "Restoring…";
+    try {
+      const zip = await JSZip.loadAsync(f);
+      const meta = JSON.parse(await zip.file("lineup.json").async("string"));
+      if (meta.app !== "the-daily-lineup") throw new Error("not a lineup backup");
+      let added = 0, updated = 0;
+      for (const [id, info] of Object.entries(meta.files || {})) {
+        if (await raw.hasBlob(id)) continue;
+        const zf = zip.file(info.name); if (!zf) continue;
+        const ab = await zf.async("arraybuffer"); await raw.putBlob(id, new Blob([ab], { type: info.type }));
+      }
+      for (const row of meta.issues || []) {
+        const cur = await raw.getIssue(row.id);
+        if (!cur) { await raw.putIssue(row); added++; }
+        else if ((row.updatedAt || row.createdAt || 0) > (cur.updatedAt || cur.createdAt || 0)) { await raw.putIssue(row); updated++; }
+      }
+      await raw.refresh();
+      toast(added || updated ? `Restored · ${added} new, ${updated} updated` : "Everything in that backup is already here");
+    } catch (err) { console.error(err); toast("That file isn't a Daily Lineup backup.", true); }
+    btn.disabled = false; btn.textContent = "Restore ↑";
+  });
+
+  /* ---------- install & updates ---------- */
+  let installEvt = null;
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; $("#installBtn").hidden = false; });
+  $("#installBtn").addEventListener("click", async () => { if (!installEvt) return; installEvt.prompt(); const r = await installEvt.userChoice; installEvt = null; $("#installBtn").hidden = true; if (r.outcome === "accepted") toast("Installed ✓ Find it on your home screen"); });
+  addEventListener("appinstalled", () => { $("#installBtn").hidden = true; });
+  const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (isIOS && !standalone) {
+    let seen = false; try { seen = localStorage.getItem("dl-ios-hint") === "1"; } catch {}
+    if (!seen) setTimeout(() => { toast("Install: tap Share, then Add to Home Screen"); try { localStorage.setItem("dl-ios-hint", "1"); } catch {} }, 1800);
+  }
+  if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    navigator.serviceWorker.register("./sw.js").then(reg => {
+      reg.addEventListener("updatefound", () => {
+        const w = reg.installing; if (!w) return;
+        w.addEventListener("statechange", () => { if (w.state === "installed" && navigator.serviceWorker.controller) toast("New version ready · it loads next time you open the app"); });
+      });
+    }).catch(e => console.warn("SW registration failed", e));
+  }
+})();
+</script>
+</body>
+</html>

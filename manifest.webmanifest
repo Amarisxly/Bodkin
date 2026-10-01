@@ -1,0 +1,22 @@
+{
+  "name": "The Daily Lineup",
+  "short_name": "Lineup",
+  "description": "One lineup sketch and one brand study, every day.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "en",
+  "categories": ["design", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "File today's lineup", "short_name": "File", "url": "./#s-desk", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
